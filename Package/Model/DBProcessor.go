@@ -10,6 +10,13 @@ import (
 	"github.com/FACELESS-GOD/EcommerceMonkay.git/Package/Utility"
 )
 
+type DatabaseInterface interface {
+	AddUser(http.ResponseWriter, *http.Request)
+	EditUser(http.ResponseWriter, *http.Request)
+	EditUserCred(http.ResponseWriter, *http.Request)
+	DeleteUser(http.ResponseWriter, *http.Request)
+}
+
 type DBProcessor struct {
 	DB *sql.DB
 }

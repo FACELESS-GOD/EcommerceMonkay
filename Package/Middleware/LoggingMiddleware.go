@@ -2,29 +2,18 @@ package Middleware
 
 import (
 	"net/http"
-	"runtime/debug"
 
-	"go.uber.org/zap"
+	"github.com/FACELESS-GOD/EcommerceMonkay.git/Package/Logger"
 )
 
 type CustomLogger struct {
-	logger *zap.Logger
+	logger Logger.LoggerInterface
 }
 
-func NewLoggerDev() *CustomLogger {
-	logger := zap.Must(zap.NewDevelopment())
+func NewCustomLogger(logInterface Logger.LoggerInterface) *CustomLogger {
 
 	return &CustomLogger{
-		logger: logger,
-	}
-
-}
-
-func NewLoggerProd() *CustomLogger {
-	logger := zap.Must(zap.NewProduction())
-
-	return &CustomLogger{
-		logger: logger,
+		logger: logInterface,
 	}
 
 }
@@ -35,12 +24,8 @@ func (log *CustomLogger) LoggingMiddleware(next http.Handler) http.Handler {
 
 			defer func() {
 				if err := recover(); err != nil {
-					defer log.logger.Sync()
 					Writer.WriteHeader(http.StatusInternalServerError)
-
-					log.logger.Log(
-						zap.ErrorLevel, string(debug.Stack()))
-
+					log.logger.Log()
 				}
 			}()
 			next.ServeHTTP(Writer, Req)

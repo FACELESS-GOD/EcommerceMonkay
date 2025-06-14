@@ -7,6 +7,13 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+type RedisInterface interface {
+	AddJWT()
+	AddCred()
+	ValidateCred()
+} 
+
+
 type RdbProcessor struct {
 	RdbProc *redis.Client
 }
@@ -21,4 +28,6 @@ func (Rdb *RdbProcessor) NewRdbProcessor(Wg *sync.WaitGroup) *RdbProcessor {
 
 func (Rdb *RdbProcessor) AddJWT() {}
 
-func (Rdb *RdbProcessor) Add2fac() {}
+func (Rdb *RdbProcessor) AddCred() {}
+
+func (Rdb *RdbProcessor) ValidateCred() {}
